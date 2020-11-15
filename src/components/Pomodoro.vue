@@ -25,10 +25,12 @@
         >
       </div>
     </v-card>
-    <SettingDialog :dialog="dialog" />
-    <v-btn color="secundary" dark small absolute bottom right fab>
-      <v-icon>mdi-cog-outline</v-icon>
-    </v-btn>
+    <SettingDialog
+      :dialog="dialog"
+      :closeDialog="closeDialog"
+      :save="save"
+      :timers="timers"
+    />
   </v-card>
 </template>
 
@@ -38,6 +40,16 @@ import SettingDialog from "./SettingsDialog.vue";
 export default {
   components: {
     SettingDialog,
+  },
+  props: {
+    dialog: {
+      type: Boolean,
+      required: true,
+    },
+    closeDialog: {
+      type: Function,
+      required: true,
+    },
   },
   data() {
     return {
@@ -59,7 +71,6 @@ export default {
           minutes: 10,
         },
       ],
-      dialog: false,
     };
   },
   computed: {
@@ -83,6 +94,10 @@ export default {
       //this.stop();
       if (!this.isRunning) {
         this.timerInstance = setInterval(() => {
+          if (this.totalSeconds <= 0) {
+            this.isRunning = false;
+            return;
+          }
           this.totalSeconds -= 1;
         }, 1000);
         this.isRunning = true;
@@ -99,6 +114,12 @@ export default {
     changeCurrentTimer(num) {
       this.currentTimer = num;
       this.reset(this.timers[num].minutes);
+    },
+    save(updatedTimers) {
+      this.timers = this.timers.map((timer, i) => {
+        return { ...timer, minutes: parseInt(updatedTimers[i]) };
+      });
+      this.closeDialog();
     },
   },
 };

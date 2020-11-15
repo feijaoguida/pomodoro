@@ -4,8 +4,19 @@
       <v-container>
         <v-row>
           <v-col sm="6" offset-sm="3">
-            <Pomodoro />
+            <Pomodoro :dialog="dialog" :closeDialog="closeDialog" />
           </v-col>
+          <v-btn
+            @click="dialog = true"
+            color="secundary"
+            dark
+            small
+            top
+            right
+            fab
+          >
+            <v-icon>mdi-cog-outline</v-icon>
+          </v-btn>
         </v-row>
       </v-container>
     </v-main>
@@ -19,6 +30,18 @@ export default {
   name: "App",
   components: {
     Pomodoro,
+  },
+
+  data() {
+    return {
+      dialog: false,
+    };
+  },
+
+  methods: {
+    closeDialog() {
+      this.dialog = false;
+    },
   },
 };
 </script>
