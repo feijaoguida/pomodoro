@@ -1,13 +1,18 @@
 <template>
   <v-card class="mt-8">
-    <v-tabs @change="changeCurrentTimer" v-model="currentTimer" grow>
+    <v-tabs
+      show-arrows
+      grow
+      @change="changeCurrentTimer"
+      v-model="currentTimer"
+    >
       <v-tab v-for="timer in timers" :key="timer.name" :disabled="isRunning">
         {{ timer.name }}
       </v-tab>
     </v-tabs>
     <v-card class="pa-5 d-flex flex-column justify-center align-center" flat>
       <h1 class="timer">{{ this.displayMinutes }}:{{ this.displaySeconds }}</h1>
-      <div class="button-group">
+      <div class="button-group d-flex flex-wrap justify-center align-center">
         <v-btn @click="start" color="primary" :disabled="isRunning">
           <v-icon small left> mdi-play-speed </v-icon>
           Iniciar</v-btn
@@ -127,9 +132,9 @@ export default {
 
 <style lang="sass" scoped>
 .v-card
-  width: 600px
+  width: 100%
 .v-btn
-  margin: 0 3px
+  margin: 3px
 .timer
   font-size: 80px
   font-weight: 400
